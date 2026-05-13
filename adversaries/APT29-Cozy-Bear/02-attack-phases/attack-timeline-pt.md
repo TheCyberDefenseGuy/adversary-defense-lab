@@ -313,27 +313,19 @@ Copy-Item "C:\Users\Administrator\Downloads\ds7002\ds7002.lnk" "C:\Users\Adminis
 
 Esta secção agrega as evidências globais capturadas no Kibana após a execução completa do ataque.
 
-**Security Alerts — 188 alertas gerados**
-
-> Adicionar print: Security -> Alerts no Kibana mostrando os 188 alertas com severity high e medium
+**Security Alerts — 1k alertas gerados**
 
 ![Kibana Security Alerts](evidence/15-kibana-alerts.png)
 
-**Detection Rules — 12 regras activas**
-
-> Adicionar print: Security -> Rules mostrando as 12 regras APT29 com status Succeeded
+**Detection Rules — 24 regras activas**
 
 ![Kibana Detection Rules](evidence/16-kibana-rules.png)
 
 **APT29 SOC Dashboard**
 
-> Adicionar print: Dashboard completo com gauge, bar chart, timeline, treemap e tabela
-
 ![APT29 SOC Dashboard](evidence/17-soc-dashboard.png)
 
 **Alerta detalhado — exemplo T1059.001**
-
-> Adicionar print: alerta aberto no Kibana mostrando todos os campos: timestamp, rule name, host, commandLine, severity
 
 ![Alert Detail T1059.001](evidence/18-alert-detail.png)
 
