@@ -355,37 +355,6 @@ This section aggregates the global evidence captured in Kibana after the full at
 
 ---
 
-## How to add evidence to the repository
-
-On GitHub, inside the `adversaries/APT29-Cozy-Bear/02-attack-phases/` folder, create a folder called `evidence` and upload the screenshots with the exact names indicated above. GitHub will render the images automatically inside the MD file.
-
-```
-02-attack-phases/
-├── attack-timeline.md
-├── attack-timeline-en.md
-└── evidence/
-    ├── 01-spearphishing-download.png
-    ├── 02-malicious-lnk.png
-    ├── 03-meterpreter-session.png
-    ├── 04-c2-https.png
-    ├── 05-obfuscation-alert.png
-    ├── 06-rundll32-alert.png
-    ├── 07-account-discovery.png
-    ├── 08-permission-groups.png
-    ├── 09-system-info.png
-    ├── 10-process-discovery.png
-    ├── 11-registry-query.png
-    ├── 12-archive-data.png
-    ├── 13-tool-transfer.png
-    ├── 14-startup-persistence.png
-    ├── 15-kibana-alerts.png
-    ├── 16-kibana-rules.png
-    ├── 17-soc-dashboard.png
-    └── 18-alert-detail.png
-```
-
----
-
 ## MITRE ATT&CK References
 
 - [APT29 Group Page](https://attack.mitre.org/groups/G0016/)
