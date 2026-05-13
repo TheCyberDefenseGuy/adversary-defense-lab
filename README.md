@@ -27,34 +27,41 @@ Cada APT documentado inclui o perfil do grupo com histórico de campanhas reais,
 
 ## Arquitectura do Lab
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    PROXMOX HYPERVISOR                   │
-│                    192.168.1.100                        │
-│                                                         │
-│  ┌─────────────────┐         ┌─────────────────────┐   │
-│  │   SOC-Core      │         │     WIN-DC01         │   │
-│  │ 192.168.10.20   │◄────────│  192.168.10.101      │   │
-│  │                 │  Wazuh  │                      │   │
-│  │ Elasticsearch   │  Agent  │ Windows Server 2022  │   │
-│  │ Kibana          │         │ Active Directory      │   │
-│  │ Wazuh Manager   │         │ Sysmon64             │   │
-│  └────────▲────────┘         └──────────────────────┘   │
-│           │                                              │
-│           │ Logs e Alertas                               │
-│           │                                              │
-│  ┌────────┴────────┐         ┌─────────────────────┐   │
-│  │  Kali-Attack    │────────►│     OPNsense         │   │
-│  │ 192.168.10.102  │ Ataque  │  192.168.1.237       │   │
-│  │                 │         │                      │   │
-│  │ Metasploit      │         │ Firewall             │   │
-│  │ CALDERA         │         │ WireGuard VPN        │   │
-│  │ Atomic Red Team │         └─────────────────────┘   │
-│  └─────────────────┘                                    │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    Analyst(("👤 Analyst"))
+
+    subgraph PROXMOX["🖥️ Proxmox Hypervisor — 192.168.1.100"]
+        direction TB
+
+        OPN["🔒 OPNsense\n192.168.1.237\nFirewall + WireGuard VPN"]
+
+        subgraph INTERNAL["Rede Interna — 192.168.10.0/24"]
+            direction LR
+            SOC["📊 SOC-Core\n192.168.10.20\nElasticsearch + Kibana\nWazuh Manager"]
+            WIN["🖥️ WIN-DC01\n192.168.10.101\nWindows Server 2022\nActive Directory + Sysmon64"]
+            KALI["⚔️ Kali-Attack\n192.168.10.102\nMetasploit + CALDERA\nAtomic Red Team"]
+        end
+    end
+
+    Analyst -->|"WireGuard VPN"| OPN
+    OPN -->|"Gateway"| INTERNAL
+    KALI -->|"APT29 TTPs — Ataque"| WIN
+    WIN -->|"Wazuh Agent — Logs e Alertas"| SOC
+
+    style PROXMOX fill:#f8f9fa,stroke:#dee2e6,stroke-width:2px
+    style INTERNAL fill:#e9ecef,stroke:#adb5bd,stroke-width:1px,stroke-dasharray:5 5
+    style SOC fill:#d1ecf1,stroke:#0c5460
+    style WIN fill:#cce5ff,stroke:#004085
+    style KALI fill:#f8d7da,stroke:#721c24
+    style OPN fill:#d4edda,stroke:#155724
 ```
 
-### Stack Tecnológico
+O analista acede ao laboratório remotamente via WireGuard VPN no OPNsense. O Kali-Attack emula as técnicas do APT29 directamente contra o WIN-DC01. O Wazuh Agent instalado no WIN-DC01 recolhe todos os eventos e envia para o SOC-Core onde o Elasticsearch, Kibana e Wazuh Manager processam, correlacionam e geram alertas.
+
+---
+
+## Stack Tecnológico
 
 | Componente | Tecnologia | Versão |
 |---|---|---|
