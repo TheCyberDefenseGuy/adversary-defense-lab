@@ -71,8 +71,6 @@ ParentImage: explorer.exe
 
 **Evidência:**
 
-> Adicionar print: ficheiro LNK na pasta Downloads do WIN-DC01
-
 ![T1204.002 - Malicious LNK File](evidence/02-malicious-lnk.png)
 
 ---
