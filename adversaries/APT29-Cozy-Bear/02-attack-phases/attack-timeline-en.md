@@ -313,13 +313,13 @@ Copy-Item "C:\Users\Administrator\Downloads\ds7002\ds7002.lnk" "C:\Users\Adminis
 
 This section aggregates the global evidence captured in Kibana after the full attack execution.
 
-**Security Alerts — 188 alerts generated**
+**Security Alerts — 1k alerts generated**
 
 > Add screenshot: Security -> Alerts in Kibana showing 188 alerts with high and medium severity
 
 ![Kibana Security Alerts](evidence/15-kibana-alerts.png)
 
-**Detection Rules — 12 active rules**
+**Detection Rules — 24 active rules**
 
 > Add screenshot: Security -> Rules showing the 12 APT29 rules with Succeeded status
 
