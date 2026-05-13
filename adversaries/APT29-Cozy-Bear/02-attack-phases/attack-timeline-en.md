@@ -315,25 +315,17 @@ This section aggregates the global evidence captured in Kibana after the full at
 
 **Security Alerts — 1k alerts generated**
 
-> Add screenshot: Security -> Alerts in Kibana showing 188 alerts with high and medium severity
-
 ![Kibana Security Alerts](evidence/15-kibana-alerts.png)
 
 **Detection Rules — 24 active rules**
-
-> Add screenshot: Security -> Rules showing the 12 APT29 rules with Succeeded status
 
 ![Kibana Detection Rules](evidence/16-kibana-rules.png)
 
 **APT29 SOC Dashboard**
 
-> Add screenshot: full dashboard with gauge, bar chart, timeline, treemap and table
-
 ![APT29 SOC Dashboard](evidence/17-soc-dashboard.png)
 
 **Alert detail — T1059.001 example**
-
-> Add screenshot: alert opened in Kibana showing all fields: timestamp, rule name, host, commandLine, severity
 
 ![Alert Detail T1059.001](evidence/18-alert-detail.png)
 
