@@ -282,8 +282,6 @@ Copy-Item "C:\Users\Administrator\Downloads\ds7002\ds7002.lnk" "C:\Users\Adminis
 
 **Evidence:**
 
-> Add screenshot: LNK file in the Startup folder on WIN-DC01 + Kibana alert
-
 ![T1547.009 - Startup Persistence](evidence/14-startup-persistence.png)
 
 ---
