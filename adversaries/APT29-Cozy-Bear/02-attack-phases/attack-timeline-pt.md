@@ -136,14 +136,12 @@ ScriptBlockText: contém o payload decodificado
 
 **Detecção no SIEM:**
 ```
-data.win.eventdata.commandLine:*bypass* OR
+data.win.eventdata.commandLine:*hidden* OR
 data.win.eventdata.commandLine:*encodedcommand* OR
 data.win.eventdata.commandLine:*-enc*
 ```
 
 **Evidência:**
-
-> Adicionar print: alerta no Kibana do T1027 com o campo commandLine mostrando o -ep bypass
 
 ![T1027 - Obfuscation Alert](evidence/05-obfuscation-alert.png)
 
