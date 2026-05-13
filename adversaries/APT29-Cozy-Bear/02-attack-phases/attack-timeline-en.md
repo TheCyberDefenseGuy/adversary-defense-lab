@@ -162,8 +162,6 @@ Image: C:\Windows\System32\rundll32.exe
 
 **Evidence:**
 
-> Add screenshot: Kibana alert for T1218.011 with the image field showing rundll32.exe
-
 ![T1218.011 - Rundll32 Alert](evidence/06-rundll32-alert.png)
 
 ---
@@ -186,8 +184,6 @@ svc.backup    madAdmin    Administrator
 ```
 
 **Evidence:**
-
-> Add screenshot: net user output in the Meterpreter shell showing domain users
 
 ![T1087 - Account Discovery](evidence/07-account-discovery.png)
 
