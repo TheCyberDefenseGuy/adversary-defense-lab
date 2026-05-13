@@ -47,8 +47,6 @@ data.win.eventdata.commandLine:*msedge* OR data.win.eventdata.image:*msedge*
 
 **Evidência:**
 
-> Adicionar print: servidor HTTP no Kali a servir o payload + Edge a descarregar o ficheiro LNK no WIN-DC01
-
 ![T1566.002 - Spearphishing Download](evidence/01-spearphishing-download.png)
 
 ---
