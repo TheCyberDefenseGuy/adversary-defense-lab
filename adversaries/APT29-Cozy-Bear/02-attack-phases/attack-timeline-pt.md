@@ -117,12 +117,6 @@ Image: powershell.exe
 DestinationIp: 192.168.10.102
 ```
 
-**Evidência:**
-
-> Adicionar print: evento de rede no Kibana mostrando a ligação HTTPS do powershell.exe para o Kali
-
-![T1071.001 - C2 HTTPS Connection](evidence/04-c2-https.png)
-
 ---
 
 ### T1027 — Obfuscation
