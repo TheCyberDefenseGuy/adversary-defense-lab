@@ -47,8 +47,6 @@ data.win.eventdata.commandLine:*msedge* OR data.win.eventdata.image:*msedge*
 
 **Evidence:**
 
-> Add screenshot: HTTP server on Kali serving the payload + Edge downloading the LNK file on WIN-DC01
-
 ![T1566.002 - Spearphishing Download](evidence/01-spearphishing-download.png)
 
 ---
@@ -72,8 +70,6 @@ ParentImage: explorer.exe
 ```
 
 **Evidence:**
-
-> Add screenshot: LNK file in the Downloads folder on WIN-DC01
 
 ![T1204.002 - Malicious LNK File](evidence/02-malicious-lnk.png)
 
