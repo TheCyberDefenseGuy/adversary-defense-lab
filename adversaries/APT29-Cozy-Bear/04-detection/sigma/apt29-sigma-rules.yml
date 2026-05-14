@@ -1,0 +1,449 @@
+title: APT29 PowerShell Execution
+id: a1b2c3d4-0001-4e5f-8a9b-apt29t1059001
+status: test
+description: Detects PowerShell execution used by APT29 for payload delivery and reconnaissance. Based on real lab emulation evidence.
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'powershell'
+            - 'powershell.exe'
+    condition: selection
+falsepositives:
+    - Legitimate administrative PowerShell usage
+    - Software installers using PowerShell
+level: high
+fields:
+    - CommandLine
+    - Image
+    - ParentImage
+    - User
+
+---
+
+title: APT29 PowerShell Obfuscation ExecutionPolicy Bypass
+id: a1b2c3d4-0002-4e5f-8a9b-apt29t1027
+status: test
+description: Detects PowerShell with ExecutionPolicy Bypass flag used by APT29 for defense evasion and encoded command execution.
+references:
+    - https://attack.mitre.org/techniques/T1027/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.defense_evasion
+    - attack.t1027
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'bypass'
+            - '-ep bypass'
+            - '-ExecutionPolicy Bypass'
+            - '-EncodedCommand'
+            - ' -enc '
+    condition: selection
+falsepositives:
+    - Some legitimate software deployment tools
+    - Administrative scripts with explicit bypass
+level: high
+fields:
+    - CommandLine
+    - Image
+    - ParentImage
+
+---
+
+title: APT29 Rundll32 Execution
+id: a1b2c3d4-0003-4e5f-8a9b-apt29t1218011
+status: test
+description: Detects Rundll32 execution used by APT29 to load malicious DLLs and evade detection by masquerading as legitimate Windows activity.
+references:
+    - https://attack.mitre.org/techniques/T1218/011/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.defense_evasion
+    - attack.t1218.011
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'rundll32'
+        Image|endswith:
+            - '\rundll32.exe'
+    condition: selection
+falsepositives:
+    - Legitimate Windows rundll32 usage for system tasks
+level: high
+fields:
+    - CommandLine
+    - Image
+    - ParentImage
+
+---
+
+title: APT29 Account Discovery via Net User
+id: a1b2c3d4-0004-4e5f-8a9b-apt29t1087
+status: test
+description: Detects domain account enumeration via net user command used by APT29 during Discovery phase.
+references:
+    - https://attack.mitre.org/techniques/T1087/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.discovery
+    - attack.t1087
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'net user'
+            - 'net1 user'
+        Image|endswith:
+            - '\net.exe'
+            - '\net1.exe'
+    condition: selection
+falsepositives:
+    - Legitimate IT administrative tasks
+    - Helpdesk account management
+level: medium
+fields:
+    - CommandLine
+    - Image
+    - User
+
+---
+
+title: APT29 Permission Groups Discovery
+id: a1b2c3d4-0005-4e5f-8a9b-apt29t1069
+status: test
+description: Detects domain group enumeration via net group command used by APT29 to identify privileged targets.
+references:
+    - https://attack.mitre.org/techniques/T1069/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.discovery
+    - attack.t1069
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'net group'
+            - 'net1 group'
+            - 'net1 user'
+        Image|endswith:
+            - '\net.exe'
+            - '\net1.exe'
+    condition: selection
+falsepositives:
+    - Legitimate Active Directory administration
+level: medium
+fields:
+    - CommandLine
+    - Image
+    - User
+
+---
+
+title: APT29 System Information Discovery
+id: a1b2c3d4-0006-4e5f-8a9b-apt29t1082
+status: test
+description: Detects systeminfo execution used by APT29 to collect environment details after initial compromise.
+references:
+    - https://attack.mitre.org/techniques/T1082/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.discovery
+    - attack.t1082
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'systeminfo'
+        Image|endswith:
+            - '\systeminfo.exe'
+    condition: selection
+falsepositives:
+    - Legitimate IT inventory scripts
+    - System monitoring tools
+level: medium
+fields:
+    - CommandLine
+    - Image
+    - User
+
+---
+
+title: APT29 Process Discovery via Tasklist
+id: a1b2c3d4-0007-4e5f-8a9b-apt29t1057
+status: test
+description: Detects tasklist execution used by APT29 to enumerate running processes and identify security tools.
+references:
+    - https://attack.mitre.org/techniques/T1057/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.discovery
+    - attack.t1057
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'tasklist'
+        Image|endswith:
+            - '\tasklist.exe'
+    condition: selection
+falsepositives:
+    - Legitimate process monitoring tools
+    - IT support scripts
+level: medium
+fields:
+    - CommandLine
+    - Image
+    - User
+
+---
+
+title: APT29 Archive Collected Data with 7-Zip
+id: a1b2c3d4-0008-4e5f-8a9b-apt29t1560
+status: test
+description: Detects 7-Zip usage to compress collected data for exfiltration as observed in APT29 campaigns.
+references:
+    - https://attack.mitre.org/techniques/T1560/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.collection
+    - attack.t1560
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - '7z'
+            - '7za'
+        Image|endswith:
+            - '\7z.exe'
+            - '\7za.exe'
+    condition: selection
+falsepositives:
+    - Legitimate backup and compression tasks
+    - Software deployment using 7-Zip
+level: high
+fields:
+    - CommandLine
+    - Image
+    - User
+    - ParentImage
+
+---
+
+title: APT29 Registry Query Discovery
+id: a1b2c3d4-0009-4e5f-8a9b-apt29t1012
+status: test
+description: Detects registry query commands used by APT29 to collect system configuration and identify installed software.
+references:
+    - https://attack.mitre.org/techniques/T1012/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.discovery
+    - attack.t1012
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'reg query'
+        Image|endswith:
+            - '\reg.exe'
+    condition: selection
+falsepositives:
+    - Legitimate registry inspection tools
+    - Software inventory scripts
+level: medium
+fields:
+    - CommandLine
+    - Image
+    - User
+
+---
+
+title: APT29 Startup Folder Persistence
+id: a1b2c3d4-0010-4e5f-8a9b-apt29t1547009
+status: test
+description: Detects file creation or copy operations targeting the Windows Startup folder used by APT29 for persistence between reboots.
+references:
+    - https://attack.mitre.org/techniques/T1547/009/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.persistence
+    - attack.t1547.009
+    - apt29
+    - cozy_bear
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|contains:
+            - '\Start Menu\Programs\Startup\'
+            - '\Microsoft\Windows\Start Menu\Programs\Startup\'
+    condition: selection
+falsepositives:
+    - Legitimate software adding startup entries
+    - Administrative deployment scripts
+level: high
+fields:
+    - TargetFilename
+    - Image
+    - User
+
+---
+
+title: APT29 Spearphishing Download via Edge Browser
+id: a1b2c3d4-0011-4e5f-8a9b-apt29t1566002
+status: test
+description: Detects suspicious file downloads via Microsoft Edge associated with APT29 spearphishing campaigns delivering LNK payloads.
+references:
+    - https://attack.mitre.org/techniques/T1566/002/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.initial_access
+    - attack.t1566.002
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|contains:
+            - 'msedge'
+        CommandLine|contains:
+            - 'msedge'
+    condition: selection
+falsepositives:
+    - Legitimate Edge browser usage
+level: high
+fields:
+    - CommandLine
+    - Image
+    - ParentImage
+
+---
+
+title: APT29 Ingress Tool Transfer via Invoke-WebRequest
+id: a1b2c3d4-0012-4e5f-8a9b-apt29t1105
+status: test
+description: Detects PowerShell Invoke-WebRequest used by APT29 to download additional tools and payloads to compromised systems.
+references:
+    - https://attack.mitre.org/techniques/T1105/
+    - https://attack.mitre.org/groups/G0016/
+    - https://uncoder.io/
+author: TheCyberDefenseGuy
+date: 2026-05-13
+modified: 2026-05-13
+tags:
+    - attack.command_and_control
+    - attack.t1105
+    - apt29
+    - cozy_bear
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'Invoke-WebRequest'
+            - 'IWR'
+            - 'wget'
+            - 'curl'
+    condition: selection
+falsepositives:
+    - Legitimate software download scripts
+    - Package managers using PowerShell
+level: high
+fields:
+    - CommandLine
+    - Image
+    - User
+    - ParentImage
