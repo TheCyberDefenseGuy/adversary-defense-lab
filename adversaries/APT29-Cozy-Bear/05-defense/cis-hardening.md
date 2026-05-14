@@ -1,6 +1,6 @@
 # CIS Controls — Hardening APT29
 
-Este documento mapeia os controlos CIS relevantes para cada fase do ataque APT29 emulado neste laboratório. As referências são baseadas no CIS Controls v8 e no CIS Benchmark Windows Server 2022.
+Este documento mapeia os controlos CIS relevantes para cada fase do ataque APT29 emulado neste laboratório. As referências são baseadas no CIS Controls v8.1 e no CIS Benchmark Windows Server 2022.
 
 Os controlos estão organizados por fase do ataque para que seja fácil priorizar a implementação com base no risco mais imediato.
 
@@ -8,9 +8,13 @@ Os controlos estão organizados por fase do ataque para que seja fácil prioriza
 
 ## Referências Base
 
-- [CIS Controls v8](https://www.cisecurity.org/controls/v8)
+- [CIS Controls v8.1 — Página oficial](https://www.cisecurity.org/controls/v8-1)
+- [CIS Controls v8.1 — Download gratuito](https://learn.cisecurity.org/cis-controls-download)
+- [CIS Controls — Lista dos 18 controlos](https://www.cisecurity.org/controls/cis-controls-list)
+- [CIS Controls Navigator — Ferramenta online](https://www.cisecurity.org/controls/cis-controls-navigator)
 - [CIS Benchmark Microsoft Windows Server 2022](https://www.cisecurity.org/benchmark/microsoft_windows_server)
 - [CIS Benchmark Microsoft Windows 11](https://www.cisecurity.org/benchmark/microsoft_windows_desktop)
+- [CIS Benchmarks — Todos os produtos](https://www.cisecurity.org/cis-benchmarks)
 
 ---
 
@@ -54,10 +58,7 @@ Get-AppLockerPolicy -Effective | Format-List
 Mantém o Windows Defender activo e actualizado. O AMSI intercede na execução de scripts PowerShell ofuscados mesmo antes da execução.
 
 **Subcontrol 10.5** — Enable anti-exploitation features.
-Activa o Windows Defender Exploit Guard em todos os endpoints com as seguintes protecções:
-- Attack Surface Reduction (ASR) rules
-- Network Protection
-- Controlled Folder Access
+Activa o Windows Defender Exploit Guard em todos os endpoints com as seguintes protecções: Attack Surface Reduction rules, Network Protection e Controlled Folder Access.
 
 **Verificação:**
 ```powershell
@@ -83,7 +84,7 @@ Set-MpPreference -AttackSurfaceReductionRules_Ids 5BEB7EFE-FD9A-4556-801D-275E5F
 ### CIS Control 16 — Application Software Security
 
 **Subcontrol 16.9** — Disable features not in use.
-Desactiva Windows Script Host, Windows PowerShell v2 (vulnerável a bypass de logging) e outros componentes não necessários.
+Desactiva Windows Script Host, Windows PowerShell v2 e outros componentes não necessários.
 
 **Verificação:**
 ```powershell
@@ -130,10 +131,10 @@ Para acesso remoto e VPN exige autenticação multifactor para prevenir que cred
 ### CIS Control 3 — Data Protection
 
 **Subcontrol 3.3** — Configure data access control lists.
-Restringe o acesso a pastas com dados sensíveis. O utilizador Administrator não deve ter acesso por defeito a todos os documentos do sistema.
+Restringe o acesso a pastas com dados sensíveis.
 
 **Subcontrol 3.11** — Encrypt sensitive data at rest.
-Activa BitLocker em todos os volumes com dados sensíveis para que mesmo que os dados sejam copiados não sejam legíveis.
+Activa BitLocker em todos os volumes com dados sensíveis.
 
 **Verificação:**
 ```powershell
@@ -147,12 +148,9 @@ Get-BitLockerVolume | Select-Object MountPoint, VolumeStatus, EncryptionPercenta
 Garante que todos os eventos de segurança relevantes (EventID 4688, Sysmon EventID 1, 11) são enviados para o SIEM centralizado.
 
 **Subcontrol 13.3** — Deploy a network intrusion detection solution.
-Monitoriza o tráfego de saída para detectar downloads de ferramentas e comunicações C2 mesmo em HTTPS via TLS inspection.
+Monitoriza o tráfego de saída para detectar downloads de ferramentas e comunicações C2.
 
 ### CIS Control 4 — Secure Configuration of Enterprise Assets
-
-**Subcontrol 4.1** — Establish and maintain a secure configuration process.
-Usa um baseline de configuração documentado para todos os endpoints. O CIS Benchmark Windows Server 2022 fornece 300+ controlos específicos.
 
 **Subcontrol 4.6** — Securely manage enterprise assets and software.
 A pasta Startup deve ter permissões restritivas. Apenas administradores devem poder escrever nesta localização.
@@ -168,12 +166,10 @@ icacls "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 
 ## Logging e Auditoria
 
-Um componente crítico da detecção APT29 é ter o logging correctamente configurado. Sem logs o SIEM não detecta nada.
-
 ### CIS Control 8 — Audit Log Management
 
 **Subcontrol 8.2** — Collect audit logs.
-Activa e centraliza os seguintes logs que são críticos para detecção APT29:
+Activa e centraliza os logs críticos para detecção APT29:
 
 ```powershell
 # Process Creation Auditing (EventID 4688 com commandLine)
@@ -190,13 +186,9 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Tra
 ```
 
 **Subcontrol 8.5** — Collect detailed audit logs.
-O Sysmon com a config Olaf fornece visibilidade adicional para além dos logs nativos do Windows:
-- EventID 1 — Process Creation com hash e commandLine
-- EventID 3 — Network Connect
-- EventID 11 — File Create
-- EventID 13 — Registry Value Set
+O Sysmon com a config Olaf fornece visibilidade adicional: EventID 1 (Process Creation), EventID 3 (Network Connect), EventID 11 (File Create), EventID 13 (Registry Value Set).
 
-**Verificação da config Sysmon:**
+**Verificação:**
 ```powershell
 # Ver config Sysmon activa
 sysmon -c
@@ -208,8 +200,6 @@ Get-Service Sysmon64 | Select-Object Status, StartType
 ---
 
 ## Prioridade de Implementação
-
-Se não podes implementar tudo de uma vez, esta é a ordem recomendada baseada no impacto contra APT29:
 
 | Prioridade | Controlo | Impacto |
 |---|---|---|
@@ -226,8 +216,11 @@ Se não podes implementar tudo de uma vez, esta é a ordem recomendada baseada n
 
 ## Referências
 
-- [CIS Controls v8](https://www.cisecurity.org/controls/v8)
-- [CIS Benchmark Windows Server 2022](https://www.cisecurity.org/benchmark/microsoft_windows_server)
+- [CIS Controls v8.1](https://www.cisecurity.org/controls/v8-1)
+- [CIS Controls Download gratuito](https://learn.cisecurity.org/cis-controls-download)
+- [CIS Controls Navigator](https://www.cisecurity.org/controls/cis-controls-navigator)
+- [CIS Benchmark Microsoft Windows Server 2022](https://www.cisecurity.org/benchmark/microsoft_windows_server)
+- [CIS Benchmark Microsoft Windows 11](https://www.cisecurity.org/benchmark/microsoft_windows_desktop)
 - [Microsoft Security Baselines](https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/windows-security-configuration-framework/windows-security-baselines)
 - [Sysmon Config Olaf](https://github.com/olafhartong/sysmon-modular)
 - [MITRE ATT&CK — APT29](https://attack.mitre.org/groups/G0016/)
