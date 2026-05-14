@@ -1,6 +1,6 @@
 # CIS Controls — APT29 Hardening
 
-This document maps the relevant CIS controls for each phase of the APT29 attack emulated in this lab. References are based on CIS Controls v8 and the CIS Benchmark Windows Server 2022.
+This document maps the relevant CIS controls for each phase of the APT29 attack emulated in this lab. References are based on CIS Controls v8.1 and the CIS Benchmark Windows Server 2022.
 
 Controls are organised by attack phase to make it easy to prioritise implementation based on the most immediate risk.
 
@@ -8,9 +8,13 @@ Controls are organised by attack phase to make it easy to prioritise implementat
 
 ## Base References
 
-- [CIS Controls v8](https://www.cisecurity.org/controls/v8)
+- [CIS Controls v8.1 — Official page](https://www.cisecurity.org/controls/v8-1)
+- [CIS Controls v8.1 — Free download](https://learn.cisecurity.org/cis-controls-download)
+- [CIS Controls — List of 18 controls](https://www.cisecurity.org/controls/cis-controls-list)
+- [CIS Controls Navigator — Online tool](https://www.cisecurity.org/controls/cis-controls-navigator)
 - [CIS Benchmark Microsoft Windows Server 2022](https://www.cisecurity.org/benchmark/microsoft_windows_server)
 - [CIS Benchmark Microsoft Windows 11](https://www.cisecurity.org/benchmark/microsoft_windows_desktop)
+- [CIS Benchmarks — All products](https://www.cisecurity.org/cis-benchmarks)
 
 ---
 
@@ -54,10 +58,7 @@ Get-AppLockerPolicy -Effective | Format-List
 Keep Windows Defender active and updated. AMSI intercepts obfuscated PowerShell scripts even before execution.
 
 **Subcontrol 10.5** — Enable anti-exploitation features.
-Enable Windows Defender Exploit Guard on all endpoints with the following protections:
-- Attack Surface Reduction (ASR) rules
-- Network Protection
-- Controlled Folder Access
+Enable Windows Defender Exploit Guard on all endpoints with Attack Surface Reduction rules, Network Protection and Controlled Folder Access.
 
 **Verification:**
 ```powershell
@@ -83,7 +84,7 @@ Set-MpPreference -AttackSurfaceReductionRules_Ids 5BEB7EFE-FD9A-4556-801D-275E5F
 ### CIS Control 16 — Application Software Security
 
 **Subcontrol 16.9** — Disable features not in use.
-Disable Windows Script Host, Windows PowerShell v2 (vulnerable to logging bypass) and other unnecessary components.
+Disable Windows Script Host, Windows PowerShell v2 and other unnecessary components.
 
 **Verification:**
 ```powershell
@@ -104,7 +105,7 @@ Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2
 Disable accounts that are not used regularly. Accounts like svc.backup should have minimum required permissions and be actively monitored.
 
 **Subcontrol 5.4** — Restrict administrator privileges.
-Implement the tiered administration model (Tier Model). Domain administrators should not log in to common workstations and servers.
+Implement the tiered administration model. Domain administrators should not log in to common workstations and servers.
 
 **Verification:**
 ```powershell
@@ -130,10 +131,10 @@ For remote access and VPN require multi-factor authentication to prevent comprom
 ### CIS Control 3 — Data Protection
 
 **Subcontrol 3.3** — Configure data access control lists.
-Restrict access to folders with sensitive data. The Administrator user should not have default access to all system documents.
+Restrict access to folders with sensitive data.
 
 **Subcontrol 3.11** — Encrypt sensitive data at rest.
-Enable BitLocker on all volumes with sensitive data so that even if data is copied it is not readable.
+Enable BitLocker on all volumes with sensitive data.
 
 **Verification:**
 ```powershell
@@ -147,12 +148,9 @@ Get-BitLockerVolume | Select-Object MountPoint, VolumeStatus, EncryptionPercenta
 Ensure all relevant security events (EventID 4688, Sysmon EventID 1, 11) are sent to the centralised SIEM.
 
 **Subcontrol 13.3** — Deploy a network intrusion detection solution.
-Monitor outbound traffic to detect tool downloads and C2 communications even in HTTPS via TLS inspection.
+Monitor outbound traffic to detect tool downloads and C2 communications.
 
 ### CIS Control 4 — Secure Configuration of Enterprise Assets
-
-**Subcontrol 4.1** — Establish and maintain a secure configuration process.
-Use a documented configuration baseline for all endpoints. The CIS Benchmark Windows Server 2022 provides 300+ specific controls.
 
 **Subcontrol 4.6** — Securely manage enterprise assets and software.
 The Startup folder should have restrictive permissions. Only administrators should be able to write to this location.
@@ -168,12 +166,10 @@ icacls "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 
 ## Logging and Auditing
 
-A critical component of APT29 detection is having logging correctly configured. Without logs the SIEM detects nothing.
-
 ### CIS Control 8 — Audit Log Management
 
 **Subcontrol 8.2** — Collect audit logs.
-Enable and centralise the following logs that are critical for APT29 detection:
+Enable and centralise the critical logs for APT29 detection:
 
 ```powershell
 # Process Creation Auditing (EventID 4688 with commandLine)
@@ -190,13 +186,9 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Tra
 ```
 
 **Subcontrol 8.5** — Collect detailed audit logs.
-Sysmon with the Olaf config provides additional visibility beyond native Windows logs:
-- EventID 1 — Process Creation with hash and commandLine
-- EventID 3 — Network Connect
-- EventID 11 — File Create
-- EventID 13 — Registry Value Set
+Sysmon with the Olaf config provides additional visibility: EventID 1 (Process Creation), EventID 3 (Network Connect), EventID 11 (File Create), EventID 13 (Registry Value Set).
 
-**Sysmon config verification:**
+**Verification:**
 ```powershell
 # View active Sysmon config
 sysmon -c
@@ -208,8 +200,6 @@ Get-Service Sysmon64 | Select-Object Status, StartType
 ---
 
 ## Implementation Priority
-
-If you cannot implement everything at once, this is the recommended order based on impact against APT29:
 
 | Priority | Control | Impact |
 |---|---|---|
@@ -226,8 +216,11 @@ If you cannot implement everything at once, this is the recommended order based 
 
 ## References
 
-- [CIS Controls v8](https://www.cisecurity.org/controls/v8)
-- [CIS Benchmark Windows Server 2022](https://www.cisecurity.org/benchmark/microsoft_windows_server)
+- [CIS Controls v8.1](https://www.cisecurity.org/controls/v8-1)
+- [CIS Controls Free Download](https://learn.cisecurity.org/cis-controls-download)
+- [CIS Controls Navigator](https://www.cisecurity.org/controls/cis-controls-navigator)
+- [CIS Benchmark Microsoft Windows Server 2022](https://www.cisecurity.org/benchmark/microsoft_windows_server)
+- [CIS Benchmark Microsoft Windows 11](https://www.cisecurity.org/benchmark/microsoft_windows_desktop)
 - [Microsoft Security Baselines](https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/windows-security-configuration-framework/windows-security-baselines)
 - [Sysmon Config Olaf](https://github.com/olafhartong/sysmon-modular)
 - [MITRE ATT&CK — APT29](https://attack.mitre.org/groups/G0016/)
